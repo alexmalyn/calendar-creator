@@ -74,9 +74,12 @@ void ProfileManager::importProfile(uint32_t profileIndex, const std::string &fil
 		std::cin >> answer;
 		std::transform(answer.begin(), answer.end(), answer.begin(),
 			[](unsigned char c){ return std::tolower(c); });
-		if (answer != "yes" || answer != "y") {
+		if (answer != "yes" && answer != "y") {
 			return;
 		}
+
+		delete profile;
+		profile = new Profile;
 	}
 
 	ICSFile file(filePathStr);
