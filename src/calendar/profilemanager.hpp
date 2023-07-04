@@ -49,5 +49,6 @@ private:
 	std::vector<Profile*> m_profiles;
 
 	Profile* getProfile(uint32_t profileIndex);
+	Profile* resetProfile(uint32_t profileIndex);
 };
 

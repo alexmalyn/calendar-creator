@@ -78,8 +78,11 @@ void ProfileManager::importProfile(uint32_t profileIndex, const std::string &fil
 			return;
 		}
 
-		delete profile;
-		profile = new Profile;
+		profile = resetProfile(profileIndex);
+		if (!profile) {
+			std::cerr << "Failed to reset profile: index out of range" << std::endl;
+			return;
+		}
 	}
 
 	ICSFile file(filePathStr);
@@ -204,6 +207,21 @@ Profile *ProfileManager::getProfile(uint32_t profileIndex)
 	} catch (std::out_of_range const& exc) {
 //		std::cerr << "Profile not in range" << std::endl;
 	}
+	return requestedProfile;
+}
+
+Profile *ProfileManager::resetProfile(uint32_t profileIndex)
+{
+	Profile* requestedProfile = nullptr;
+	try {
+		requestedProfile = m_profiles.at(profileIndex);
+	} catch (std::out_of_range const& exc) {
+		return nullptr;
+	}
+
+	delete requestedProfile;
+	requestedProfile = new Profile;
+	m_profiles[profileIndex] = requestedProfile;
 	return requestedProfile;
 }
 
